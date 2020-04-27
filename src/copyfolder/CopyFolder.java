@@ -11,6 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author zelda
@@ -30,9 +34,16 @@ public class CopyFolder {
     public void copy(Path source, Path destination) throws IOException {
         if (!Files.exists(destination))
             Files.createDirectories(destination);
+        /*Iterator it = Files.walk(source).iterator();
+        while (it.hasNext()){
+            Path path = (Path)it.next();
+            copyFile(path, destination.resolve(source.relativize(path)));
+        }*/
+        /*List<Path> files = Files.walk(source).collect(Collectors.toList());
+        for (Path file : files){
+            copyFile(file, destination.resolve(source.relativize(file)));
+        }*/
         Files.walk(source).forEach(path -> {
-            //System.out.println(source);
-            //System.out.println(path);
             copyFile(path, destination.resolve(source.relativize(path)));
         });
     }
